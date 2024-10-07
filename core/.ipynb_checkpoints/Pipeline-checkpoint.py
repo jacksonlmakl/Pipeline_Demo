@@ -1,7 +1,6 @@
 from core import Task
 from core import Connection
-from core import SQL
-from core import Python
+from core import Table
 import re
 def xml(xml_string):
     # Regular expression patterns to match different elements
@@ -60,8 +59,7 @@ class Pipeline:
         data=parser(file)
         connections_raw=[i for i in data if i['type']=='connection']
         tasks_raw=[i for i in data if i['type']=='task']
-        sql_raw=[i for i in data if i['type']=='sql']
-        python_raw=[i for i in data if i['type']=='python']
+        table_raw=[i for i in data if i['type']=='sql' or i['type']=='python']
         self.tasks=[Task(task['id'],
         task['schedule'],
         task['active'],
@@ -76,30 +74,18 @@ class Pipeline:
         username=connection['username'],
         password=connection['password']) for connection in connections_raw]
         
-        self.sql=[SQL(sql.get('id',''),
-            sql.get('table',''),
-            sql.get('schema',''),
-            sql.get('database',''),
-            sql.get('connection',''),
-            sql.get('materialization',''),
-            sql.get('primary_key',''),
-            sql.get('inputs',''),
-            sql.get('schema_change',''),
-            sql.get('code',''),
-            sql.get('type','')) for sql in sql_raw]
+        self.tables=[Table(table.get('id',''),
+            table.get('table',''),
+            table.get('schema',''),
+            table.get('database',''),
+            table.get('connection',''),
+            table.get('materialization',''),
+            table.get('primary_key',''),
+            table.get('inputs',''),
+            table.get('schema_change',''),
+            table.get('code',''),
+            table.get('type','')) for table in table_raw]
         
-        self.python=[Python(python.get('id',''),
-            python.get('table',''),
-            python.get('schema',''),
-            python.get('database',''),
-            python.get('connection',''),
-            python.get('materialization',''),
-            python.get('primary_key',''),
-            python.get('inputs',''),
-            python.get('schema_change',''),
-            python.get('code',''),
-            python.get('type')) for python in python_raw]
-
 
 
 

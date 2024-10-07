@@ -1,5 +1,4 @@
 from .Task import Task
 from .Connection import Connection
-from .SQL import SQL
-from .Python import Python
+from .Table import Table
 from .Pipeline import Pipeline
