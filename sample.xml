@@ -6,7 +6,7 @@
 
 <task id="task_1" schedule="CRON * * * * *" active="true" steps="t0,t1,t2,t3,t4" force_build="true"></task>
 
-<python id="t0" table="KANTO_LANDING" schema="POKEMON" database="RAW" handler="extract" connection="connection_1" materialization="temp" inputs="" schema_change="drop_and_recreate">
+<python id="t0" table="KANTO_LANDING" schema="POKEMON" database="RAW" handler="main" connection="connection_1" materialization="temp" inputs="" schema_change="drop_and_recreate" >
 import requests
 import pandas as pd
 
@@ -89,7 +89,6 @@ def main():
 
 
 </python>
-
 <python id="t1" table="USERS_STAGE_1" schema="DATA" database="STAGE" handler="transform" connection="connection_1" materialization="temp" inputs="t0" schema_change="drop_and_recreate">
 
 import pandas as pd

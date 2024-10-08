@@ -4,7 +4,7 @@ class Table:
         self.table = table
         self.schema = schema
         self.database = database
-        self.connection = connection
+        self.connection = connection[0] if len(connection)>0 else None
         self.materialization = materialization if materialization else None
         self.handler = handler
         self.primary_key = primary_key if primary_key else None
@@ -16,6 +16,8 @@ class Table:
     def validate(self):
         if self.materialization=='incremental' and self.primary_key==None:
             raise Exception("Incremental materialization requires a valid primary_key argument")
+    # def 
+
 
             
             
