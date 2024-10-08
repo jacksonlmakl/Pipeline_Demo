@@ -95,6 +95,11 @@ class Pipeline:
             raise Exception("Table not found")
         else:
             return tbl[0]
+    def run(self):
+        for table in self.tables:
+            print(f"Building Table '{table.id}' .....")
+            self.get_table(table.id).build()
+            print("Done.\n")
 
 
 

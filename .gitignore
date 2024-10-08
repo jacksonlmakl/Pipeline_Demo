@@ -1,3 +1,5 @@
 __pycache__
 development.ipynb
-**.ipynb_checkpoints 
+.ipynb_checkpoints
+env
+ 
