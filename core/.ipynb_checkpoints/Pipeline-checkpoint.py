@@ -60,9 +60,9 @@ class Pipeline:
         connections_raw=[i for i in data if i['type']=='connection']
         tasks_raw=[i for i in data if i['type']=='task']
         table_raw=[i for i in data if i['type']=='sql' or i['type']=='python']
-        
 
-        
+
+        self.file_name=file
         self.connections=[Connection(id=connection['id'],
         host=connection['host'],
         port=connection['port'],
@@ -80,7 +80,7 @@ class Pipeline:
             table.get('inputs',''),
             table.get('schema_change',''),
             table.get('code',''),
-            table.get('type',''),table.get('handler','')) for table in table_raw]
+            table.get('type',''),table.get('handler',''),self) for table in table_raw]
         
         self.tasks=[Task(task['id'],
         task['schedule'],
@@ -89,6 +89,12 @@ class Pipeline:
         task['force_build'],
         task['code'],
         task['type']) for task in tasks_raw]
+    def get_table(self,table_id):
+        tbl=[i for i in self.tables if i.id==table_id]
+        if len(tbl)==0:
+            raise Exception("Table not found")
+        else:
+            return tbl[0]
 
 
 

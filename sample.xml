@@ -1,12 +1,8 @@
-<!-- id's have to be unique across all files in all projects -->
-<!-- (use these parameters to compute dependencies on task runs and create truly parallel execution using threading) -->
-<!-- Mode can be table, view, temp, incremental, or None (if you do not want to save output as sql table) -->
-
 <connection id="connection_1" host="ls-e8ed76a5368bcf40d7d7a6e7de5bca06d7ceca3b.cx6iawau684h.us-east-1.rds.amazonaws.com" port="5432" username="georgetown" database="RAW" password="georgetown123"></connection>
 
 <task id="task_1" schedule="CRON * * * * *" active="true" steps="t0,t1,t2,t3,t4" force_build="true"></task>
 
-<python id="t0" table="KANTO_LANDING" schema="POKEMON" database="RAW" handler="main" connection="connection_1" materialization="temp" inputs="" schema_change="drop_and_recreate" >
+<python id="t0" table="KANTO_LANDING" schema="POKEMON" database="RAW" handler="main" connection="connection_1" materialization="truncate" inputs="" schema_change="drop_and_recreate" >
 import requests
 import pandas as pd
 
@@ -89,39 +85,46 @@ def main():
 
 
 </python>
-<python id="t1" table="USERS_STAGE_1" schema="DATA" database="STAGE" handler="transform" connection="connection_1" materialization="temp" inputs="t0" schema_change="drop_and_recreate">
+<python id="t1" table="KANTO_STG" schema="POKEMON" database="RAW" handler="main" connection="connection_1" materialization="truncate" inputs="t0" schema_change="drop_and_recreate" >
 
 import pandas as pd
 import requests
-
-def transform(t0):
-    df['FULL_NAME'] = df['FRIST_NAME'] + " " + df['LAST_NAME']
-    return df
+import datetime
+def main(t0):
+    t0['META_UPDATE_TIMESTAMP']= str(datetime.datetime.now())
+    return t0
 
 </python>
 
-<sql id="t2" table="USERS" schema="DATA" database="RAW" connection="connection_1" materialization="incremental" primary_key="ID" inputs="t1" schema_change="drop_and_recreate">
-
+<sql id="t2" table="KANTO_RAW" schema="DATA" database="RAW" connection="connection_1" materialization="incremental" primary_key="name" inputs="t1" schema_change="drop_and_recreate">
 SELECT 
 * 
-FROM t1
+FROM "POKEMON"."KANTO_STG"
 
 </sql>
 
-<sql id="t3" table="USERS_CONF" schema="DATA" database="CONF" connection="connection_1" materialization="view" inputs="t2" schema_change="drop_and_recreate">
-
+<sql id="t3" table="KANTO_CONF" schema="POKEMON" database="RAW" connection="connection_1" materialization="temp"  inputs="t2" schema_change="drop_and_recreate">
 SELECT
-ID::INT AS ID,
-FULL_NAME::STRING AS FULL_NAME
-FROM t2
+"name"::VARCHAR AS NAME,
+"height"::INTEGER AS HEIGHT,
+"weight"::INTEGER AS WEIGHT,
+"abilities"::VARCHAR AS ABILITIES,
+"hp"::INTEGER AS HP,
+"attack"::INTEGER AS ATTACK,
+"defense"::INTEGER AS DEFENSE,
+"special-attack"::INTEGER AS SPECIAL_ATTACK,
+"special-defense"::INTEGER AS SPECIAL_DEFENSE,
+"speed"::INTEGER AS SPEED,
+"META_UPDATE_TIMESTAMP" AS META_UPDATE_TIMESTAMP
+FROM "POKEMON"."KANTO_STG"
 
 </sql>
 
-<sql id="t4" table="USERS" schema="DATA" database="CORE" connection="connection_1" materialization="incremental" primary_key="ID" inputs="t3" schema_change="recreate">
+<sql id="t4" table="KANTO_CORE" schema="POKEMON" database="RAW" connection="connection_1" materialization="incremental" primary_key="name"  inputs="t3" schema_change="drop_and_recreate">
 
 SELECT 
 * 
-FROM t3
+FROM "POKEMON"."KANTO_CONF"
 
 </sql>
 
