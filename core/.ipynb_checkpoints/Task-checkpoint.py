@@ -3,6 +3,6 @@ class Task:
         self.id = id
         self.schedule = schedule if schedule else ""
         self.active = True if active=='true' else False
-        self.steps = steps.split(',')
+        self.steps = steps
         self.force_build = True if force_build=='true' else False
         self.type = type

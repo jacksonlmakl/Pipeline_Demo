@@ -60,32 +60,35 @@ class Pipeline:
         connections_raw=[i for i in data if i['type']=='connection']
         tasks_raw=[i for i in data if i['type']=='task']
         table_raw=[i for i in data if i['type']=='sql' or i['type']=='python']
-        self.tasks=[Task(task['id'],
-        task['schedule'],
-        task['active'],
-        task['steps'],
-        task['force_build'],
-        task['code'],
-        task['type']) for task in tasks_raw]
+        
+
         
         self.connections=[Connection(id=connection['id'],
         host=connection['host'],
         port=connection['port'],
         username=connection['username'],
-        password=connection['password']) for connection in connections_raw]
+        password=connection['password'],
+        database=connection['database']) for connection in connections_raw]
         
         self.tables=[Table(table.get('id',''),
             table.get('table',''),
             table.get('schema',''),
             table.get('database',''),
-            table.get('connection',''),
+            [i for i in self.connections if i.id == table.get('connection','')],
             table.get('materialization',''),
             table.get('primary_key',''),
             table.get('inputs',''),
             table.get('schema_change',''),
             table.get('code',''),
-            table.get('type','')) for table in table_raw]
+            table.get('type',''),table.get('handler','')) for table in table_raw]
         
+        self.tasks=[Task(task['id'],
+        task['schedule'],
+        task['active'],
+        [i for i in self.tables if i.id in task.get('steps',[])],
+        task['force_build'],
+        task['code'],
+        task['type']) for task in tasks_raw]
 
 
 

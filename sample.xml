@@ -2,54 +2,127 @@
 <!-- (use these parameters to compute dependencies on task runs and create truly parallel execution using threading) -->
 <!-- Mode can be table, view, temp, incremental, or None (if you do not want to save output as sql table) -->
 
-<connection id="connection_1" host="127.0.0.1" port="5432" username="admin" password="pwd123"></connection>
+<connection id="connection_1" host="ls-e8ed76a5368bcf40d7d7a6e7de5bca06d7ceca3b.cx6iawau684h.us-east-1.rds.amazonaws.com" port="5432" username="georgetown" database="RAW" password="georgetown123"></connection>
 
 <task id="task_1" schedule="CRON * * * * *" active="true" steps="t0,t1,t2,t3,t4" force_build="true"></task>
 
-<python id="t0" table="PYTHON_API_USERS_LANDING" schema="DATA" database="RAW" handler="extract" connection="connection_1" materialization="temp" inputs="" schema_change="drop_and_recreate">
-    import pandas as pd
-    import requests
+<python id="t0" table="KANTO_LANDING" schema="POKEMON" database="RAW" handler="extract" connection="connection_1" materialization="temp" inputs="" schema_change="drop_and_recreate">
+import requests
+import pandas as pd
+
+def get_kanto_pokemon():
+    """
+    Fetches all Pokémon from the Kanto region using the PokeAPI.
     
-    def extract():
-        r = requests.get("https://www.api.com/v1/endpoint/")
-        r_json = r.json()
-        df = pd.DataFrame(r_json)
-        return df
+    Returns:
+        DataFrame: A Pandas DataFrame containing name, height, weight, abilities, and base stats of all Kanto Pokémon.
+    """
+    # Kanto region ID is 2 (according to PokeAPI)
+    kanto_pokedex_url = "https://pokeapi.co/api/v2/pokedex/2/"
+    
+    # Fetch the Kanto region Pokémon list
+    response = requests.get(kanto_pokedex_url)
+    
+    if response.status_code != 200:
+        print(f"Error: Could not fetch Kanto Pokedex. Status code {response.status_code}")
+        return None
+    
+    kanto_pokemon = response.json()['pokemon_entries']
+    
+    # List to hold Pokémon data
+    pokemon_data_list = []
+    
+    # Iterate through each Pokémon in the Kanto region
+    for entry in kanto_pokemon:
+        pokemon_name = entry['pokemon_species']['name']
+        pokemon_data = get_pokemon_data(pokemon_name)
+        
+        if pokemon_data:
+            pokemon_data_list.append(pokemon_data)
+    
+    # Create a DataFrame from the list of Pokémon data
+    df = pd.DataFrame(pokemon_data_list)
+    return df
+
+def get_pokemon_data(pokemon_name):
+    """
+    Fetches data for a given Pokémon from the PokeAPI.
+    
+    Parameters:
+        pokemon_name (str): The name of the Pokémon to fetch.
+        
+    Returns:
+        dict: A dictionary containing the Pokémon's name, height, weight, abilities, and base stats.
+    """
+    url = f"https://pokeapi.co/api/v2/pokemon/{pokemon_name.lower()}/"
+    
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        data = response.json()
+        
+        # Extract relevant data
+        pokemon_info = {
+            'name': data['name'],
+            'height': data['height'],
+            'weight': data['weight'],
+            'abilities': ', '.join([ability['ability']['name'] for ability in data['abilities']]),
+            'base_stats': {stat['stat']['name']: stat['base_stat'] for stat in data['stats']}
+        }
+        
+        # Flatten base stats into separate columns
+        for stat, value in pokemon_info['base_stats'].items():
+            pokemon_info[stat] = value
+        
+        # Remove base_stats key now that we have flattened it
+        del pokemon_info['base_stats']
+        
+        return pokemon_info
+    else:
+        print(f"Error: Could not fetch data for {pokemon_name}. Status code {response.status_code}")
+        return None
+
+# Main execution
+def main():
+    kanto_pokemon_df = get_kanto_pokemon()
+    return kanto_pokemon_df
+
+
 </python>
 
 <python id="t1" table="USERS_STAGE_1" schema="DATA" database="STAGE" handler="transform" connection="connection_1" materialization="temp" inputs="t0" schema_change="drop_and_recreate">
 
-    import pandas as pd
-    import requests
-    
-    def transform(t0):
-        df['FULL_NAME'] = df['FRIST_NAME'] + " " + df['LAST_NAME']
-        return df
+import pandas as pd
+import requests
+
+def transform(t0):
+    df['FULL_NAME'] = df['FRIST_NAME'] + " " + df['LAST_NAME']
+    return df
 
 </python>
 
 <sql id="t2" table="USERS" schema="DATA" database="RAW" connection="connection_1" materialization="incremental" primary_key="ID" inputs="t1" schema_change="drop_and_recreate">
 
-    SELECT 
-    * 
-    FROM t1
+SELECT 
+* 
+FROM t1
 
 </sql>
 
 <sql id="t3" table="USERS_CONF" schema="DATA" database="CONF" connection="connection_1" materialization="view" inputs="t2" schema_change="drop_and_recreate">
 
-    SELECT
-    ID::INT AS ID,
-    FULL_NAME::STRING AS FULL_NAME
-    FROM t2
+SELECT
+ID::INT AS ID,
+FULL_NAME::STRING AS FULL_NAME
+FROM t2
 
 </sql>
 
 <sql id="t4" table="USERS" schema="DATA" database="CORE" connection="connection_1" materialization="incremental" primary_key="ID" inputs="t3" schema_change="recreate">
 
-    SELECT 
-    * 
-    FROM t3
+SELECT 
+* 
+FROM t3
 
 </sql>
 
