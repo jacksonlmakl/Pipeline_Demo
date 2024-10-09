@@ -134,8 +134,8 @@ import requests
 import datetime
 from core import Pipeline
 def main():
-    p=Pipeline('pipelines/sample2.xml')
-    print(f'Pipeline sample2 Started.....')
+    p=Pipeline('pipelines/johto.xml')
+    print(f'Pipeline Johto Started.....')
     p.run()
     return p.get_table('t5').get_dataframe()
 
