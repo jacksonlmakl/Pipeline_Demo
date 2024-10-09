@@ -7,10 +7,11 @@
 ## Setup:
 - ``git clone https://github.com/jacksonlmakl/Pipeline.git``
 - ``cd Pipeline``.
-- ``/bin/setup``.
+- ``bin/setup``.
 
 
 ## Usage:
-- Add Python requirements for your pipeline in `` Pipeline/requirements.txt`` (Do not remove existing packages).
+- Add Python requirements for your pipeline files in ``requirements.txt`` (Do not remove existing packages).
+- Create new pipelines by adding .xml files to ``pipelines/`` (See ``sample.xml`` for formatting).
 - Start your pipeline files with the command:
-	- ``pipeline <YOUR FILE NAME>``.
+	- ``pipeline <YOUR FILE NAME>.xml``.
