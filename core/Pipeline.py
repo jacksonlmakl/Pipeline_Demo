@@ -1,6 +1,7 @@
 from core import Task
 from core import Connection
 from core import Table
+from core import Log
 import re
 from jinja2 import Template
 import json
@@ -106,6 +107,7 @@ class Pipeline:
         else:
             return tbl[0]
     def run(self):
+        Log()
         for table in self.tables:
             print(f"Building Table '{table.id}' .....")
             self.get_table(table.id).build()
