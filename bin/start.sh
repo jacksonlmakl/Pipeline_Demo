@@ -36,7 +36,7 @@ file_name=$1
 python_code="
 from core import Pipeline
 
-file_name = '$file_name'
+file_name = 'pipelines/'+'$file_name'
 p = Pipeline(file_name)
 print(f'Pipeline {file_name} Started.....')
 p.start()

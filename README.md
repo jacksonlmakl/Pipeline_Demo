@@ -1,4 +1,6 @@
 Setup:
-- Clone repo
-- Run ``/bin/setup``
-- Now start your pipeline files with ``pipeline <YOUR FILE NAME>``
+- ``git clone https://github.com/jacksonlmakl/Pipeline.git``
+- ``cd Pipeline``
+- ``/bin/setup``
+Start your pipeline files with the command:
+- ``pipeline <YOUR FILE NAME>``
