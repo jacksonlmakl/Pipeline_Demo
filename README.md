@@ -16,6 +16,9 @@
 - Start your pipeline files with the commands:
   	- ``cd Pipeline/`` (If this is not already your current directory).
 	- ``pipeline <YOUR FILE NAME>``.
+- Kill processes with the command:
+	- ``bin/stop <YOUR FILE NAME>``.
  ## Example Usage:
  - Make sure ``sample.xml`` exists in the ``pipelines/`` directory.
- - ``pipeline sample``.
+ - ``pipeline sample`` (To start a scheduled pipeline).
+ - ``bin/stop sample`` (To stop a running/scheduled pipeline).
