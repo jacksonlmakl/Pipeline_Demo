@@ -17,5 +17,5 @@
   	- ``cd Pipeline/`` (If this is not already your current directory).
 	- ``pipeline <YOUR FILE NAME>``.
  ## Example Usage:
- - Ensure ``sample.xml`` exists in the ``pipelines/`` directory.
+ - Make sure ``sample.xml`` exists in the ``pipelines/`` directory.
  - ``pipeline sample``.
