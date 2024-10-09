@@ -137,7 +137,7 @@ def main():
     p=Pipeline('pipelines/johto.xml')
     print(f'Pipeline Johto Started.....')
     p.run()
-    return p.get_table('t4').get_dataframe()
+    return p.get_table('t5').get_dataframe()
 
 </python>
 
