@@ -1,4 +1,7 @@
-# Pipeline
+# Overview
+
+PyPipe is a lightweight and flexible data pipeline tool designed to combine the power of Python scripting and SQL in a unified, XML-based configuration system. Built to work seamlessly with PostgreSQL databases, PyPipe allows users to define, schedule, and manage complex Extract, Transform, Load (ETL) processes. The XML configuration format simplifies the orchestration of tasks, such as database connections and data transformations, while supporting advanced features like task chaining and scheduling. By integrating Python and SQL workflows, PyPipe ensures that pipelines are not only powerful but also easily configurable for data engineers and developers alike. With its built-in scheduling using cron syntax, and the ability to chain pipelines together, PyPipe streamlines data processing workflows. Whether running a single pipeline or orchestrating multiple, chained processes, PyPipe is a robust solution for managing complex data flows in a simple, modular, and efficient manner.
+
 
 ## Requirements:
 - Python 3.10.
@@ -27,8 +30,6 @@
 
 
 # **Pipeline XML Configuration Documentation**
-
-## **Overview**
 
 The `.xml` files within the ``pipelines/`` directory each define a complete data processing pipeline using XML. These files contain all necessary configuration details, including database connections, tasks (Python or SQL), and the workflow logic. The pipelines typically handle data extraction, transformation, and loading (ETL) across various stages of processing.
 
