@@ -1,0 +1,6 @@
+#!/bin/bash
+sudo cp bin/pipeline /usr/local/bin/
+
+
+
+
