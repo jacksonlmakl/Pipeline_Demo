@@ -2,7 +2,16 @@ from core import Task
 from core import Connection
 from core import Table
 import re
+from jinja2 import Template
+
 def xml(xml_string):
+    # Load your variables.json file
+    with open('variables.json') as f:
+        variables = json.load(f)
+    template = Template(xml_string)
+    xml_string = template.render(variables)
+
+    
     # Regular expression patterns to match different elements
     tag_pattern = re.compile(r'<(?P<tag>[a-z]+) (?P<attributes>[^>]+)>(?P<content>.*?)</\1>', re.DOTALL)
     attr_pattern = re.compile(r'(?P<key>[a-z_]+)="(?P<value>[^"]*)"')
