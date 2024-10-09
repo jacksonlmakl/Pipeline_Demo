@@ -1,6 +1,6 @@
 <connection id="connection_1" host="ls-e8ed76a5368bcf40d7d7a6e7de5bca06d7ceca3b.cx6iawau684h.us-east-1.rds.amazonaws.com" port="5432" username="georgetown" database="RAW" password="georgetown123"></connection>
 
-<task id="task_1" schedule="CRON * * * * *" active="true" steps="t0,t1,t2,t3,t4" force_build="true"></task>
+<task id="task_1" schedule="*/1 * * * *"></task>
 
 <python id="t0" table="KANTO_LANDING" schema="POKEMON" database="RAW" handler="main" connection="connection_1" materialization="truncate" inputs="" schema_change="drop_and_recreate" >
 import requests
@@ -96,14 +96,14 @@ def main(t0):
 
 </python>
 
-<sql id="t2" table="KANTO_RAW" schema="DATA" database="RAW" connection="connection_1" materialization="incremental" primary_key="name" inputs="t1" schema_change="drop_and_recreate">
+<sql id="t2" table="KANTO_RAW" schema="POKEMON" database="RAW" connection="connection_1" materialization="incremental" primary_key="name" inputs="t1" schema_change="drop_and_recreate">
 SELECT 
 * 
 FROM "POKEMON"."KANTO_STG"
 
 </sql>
 
-<sql id="t3" table="KANTO_CONF" schema="POKEMON" database="RAW" connection="connection_1" materialization="temp"  inputs="t2" schema_change="drop_and_recreate">
+<sql id="t3" table="KANTO_CONF" schema="POKEMON" database="RAW" connection="connection_1" materialization="truncate"  inputs="t2" schema_change="drop_and_recreate">
 SELECT
 "name"::VARCHAR AS NAME,
 "height"::INTEGER AS HEIGHT,
@@ -116,7 +116,7 @@ SELECT
 "special-defense"::INTEGER AS SPECIAL_DEFENSE,
 "speed"::INTEGER AS SPEED,
 "META_UPDATE_TIMESTAMP" AS META_UPDATE_TIMESTAMP
-FROM "POKEMON"."KANTO_STG"
+FROM "POKEMON"."KANTO_RAW"
 
 </sql>
 

@@ -84,11 +84,11 @@ class Pipeline:
         
         self.tasks=[Task(task['id'],
         task['schedule'],
-        task['active'],
+        task.get('active',''),
         [i for i in self.tables if i.id in task.get('steps',[])],
-        task['force_build'],
-        task['code'],
-        task['type']) for task in tasks_raw]
+        task.get('force_build',''),
+        task.get('code',''),
+        task.get('type',''),self) for task in tasks_raw]
     def get_table(self,table_id):
         tbl=[i for i in self.tables if i.id==table_id]
         if len(tbl)==0:
@@ -100,6 +100,8 @@ class Pipeline:
             print(f"Building Table '{table.id}' .....")
             self.get_table(table.id).build()
             print("Done.\n")
+    def start(self):
+        return self.tasks[0].start()
 
 
 
