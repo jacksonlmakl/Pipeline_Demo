@@ -3,6 +3,7 @@ from core import Connection
 from core import Table
 import re
 from jinja2 import Template
+import json
 
 def xml(xml_string):
     # Load your variables.json file

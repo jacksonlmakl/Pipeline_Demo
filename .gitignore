@@ -3,4 +3,6 @@ development.ipynb
 .ipynb_checkpoints
 env
 **/compute__*
-run_pipeline.py 
+sample.py
+compute__t0.py 
+compute__t1.py 
