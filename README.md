@@ -43,7 +43,7 @@ The XML file contains several key elements:
 
 ## **Important Features**
 - **Jinja**: You may use Jinja when writing Pipeline files. Save variables to ``variables.json``.
-- **Chaining Pipelines**: You can kick off another Pipeline by creating a Python component at the end of a Pipeline file and incorperating this code into the handler function:
+- **Chaining Pipelines**: You can kick off another Pipeline by creating a Python component at the end of a Pipeline file and incorporating this code into the handler function:
   
 	```python
 	from core import Pipeline
