@@ -43,7 +43,7 @@ The XML file contains several key elements:
 
 ## **Important Features**
 - **Jinja**: You may use Jinja when writing Pipeline files. Save variables to ``variables.json``.
-- **Chaining Pipelines**: You can kick off another pipeline by creating a python tag and using the code:
+- **Chaining Pipelines**: You can kick off another pipeline by creating a Python component and using the code:
 	```python
 	from core import Pipeline
 	p=Pipeline('pipelines/johto.xml')
@@ -70,6 +70,8 @@ The XML file contains several key elements:
 ```xml
 <task id="task_2" schedule="*/1 * * * *"></task>
 ```
+#### Note: You may only have 1 task per Pipeline file.
+
 - **id**: Unique identifier for the task.
 - **schedule**: Cron-like schedule expression (e.g., every minute).
 
@@ -77,14 +79,16 @@ The XML file contains several key elements:
 ```xml
 <python id="t5" table="JOHTO_LANDING" schema="POKEMON" database="RAW" handler="main" connection="connection_1" materialization="truncate" inputs="" schema_change="drop_and_recreate">
 ```
+#### Note: Your Python component's handler must take in a table created by another component, or nothing at all. The handler must output a dataframe. 
+
 - **id**: Unique object identifier.
 - **table**: Target table name.
 - **schema**: Schema of the target table.
 - **database**: Database where the table resides.
 - **handler**: Function in the script to execute (must match Python code).
 - **connection**: Connection id to use.
-- **materialization**: Determines how to handle the data (e.g., `truncate` to overwrite, `incremental` to insert/update, 'temp' for temp table).
-- **inputs**: Object id's of tables that are inputs to this processor.
+- **materialization**: Determines how to handle the data (e.g., `truncate` to overwrite, `incremental` to insert/update on primary key column, 'temp' for temp table).
+- **inputs**: Object id's of tables that are inputs to this processor. 
 - **schema_change**: Handle schema changes (e.g., `drop_and_recreate`,`error`).
 
 ### **4. SQL**
@@ -96,14 +100,14 @@ The XML file contains several key elements:
 - **schema**: Schema of the target table.
 - **database**: Target database.
 - **connection**: Database connection to use.
-- **materialization**: Defines how the data should be written (e.g., `truncate` to overwrite, `incremental` to insert/update, 'temp' for temp table).
+- **materialization**: Defines how the data should be written (e.g., `truncate` to overwrite, `incremental` to insert/update on primary key column, 'temp' for temp table).
 - **inputs**: Object id's of tables that are inputs to this processor.
 - **primary_key**: Column used to identify unique rows for incremental loads (Required for incremental materialization).
 - **schema_change**: Handle schema changes (e.g., `drop_and_recreate`,`error`).
 - 
 ## **Writing Python/SQL Code Inside XML**
 
-- The Python/SQL code should be placed within a `python` or `sql` tag.
+- The Python/SQL code should be placed within a `python` or `sql` component.
   
 Example:
 ```xml
