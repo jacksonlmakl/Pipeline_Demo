@@ -46,6 +46,6 @@ p.start()
 echo "$python_code" > 'bin/'$file_name'.py'
 
 # Run the Python script
-python 'bin.'$file_name &
+python -m 'bin.'$file_name &
 
 
