@@ -108,7 +108,7 @@ class Pipeline:
             return tbl[0]
     def run(self):
         log_name= str(self.file_name).replace('pipelines/','').replace('.xml','')
-        Log(file_name)
+        Log(log_name)
         for table in self.tables:
             print(f"Building Table '{table.id}' .....")
             self.get_table(table.id).build()
