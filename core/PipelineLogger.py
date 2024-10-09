@@ -16,7 +16,7 @@ class PrintLogger:
         pass  # For file-like object compatibility
 
 
-class Log:
+class PipelineLogger:
     def __init__(self):
         file_name=datetime.datetime.now().__str__().replace("-","_").replace(" ","__").replace(":","_").split(".")[0]
         print(f"Saving log to {file_name}")
