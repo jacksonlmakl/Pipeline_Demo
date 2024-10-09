@@ -89,7 +89,7 @@ class Table:
                 self.connection.query_to_table(query, self.table, self.database, self.schema, self.materialization, schema_change_behavior=self.schema_change, primary_key=self.primary_key)
             else:
                 self.connection.Session()
-                self.connection.query_to_df(query)
+                self.connection.query(query)
             
             
             
