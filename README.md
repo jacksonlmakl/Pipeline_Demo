@@ -13,5 +13,6 @@
 ## Usage:
 - Add Python requirements for your pipeline files in ``requirements.txt`` (Do not remove existing packages).
 - Create new pipelines by adding .xml files to ``pipelines/`` (See ``sample.xml`` for formatting).
-- Start your pipeline files with the command:
+- Start your pipeline files with the commands:
+  	- ``cd Pipeline/`` (If this is not already your current directory).
 	- ``pipeline <YOUR FILE NAME>.xml``.
