@@ -1,3 +1,7 @@
+Requirements:
+- Python 3.10
+- Unix-based operating system (e.g., Linux, macOS).
+
 Setup:
 - ``git clone https://github.com/jacksonlmakl/Pipeline.git``
 - ``cd Pipeline``
