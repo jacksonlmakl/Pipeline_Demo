@@ -1,2 +1,2 @@
 #!/bin/bash
-./bin/start.sh "$1"
+./bin/start "$1"
