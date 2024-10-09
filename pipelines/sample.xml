@@ -1,4 +1,4 @@
-<connection id="connection_1" host="ls-e8ed76a5368bcf40d7d7a6e7de5bca06d7ceca3b.cx6iawau684h.us-east-1.rds.amazonaws.com" port="5432" username="{{ username }}" database="{{ database }}" password="{{ password }}"></connection>
+<connection id="connection_1" host="ls-e8ed76a5368bcf40d7d7a6e7de5bca06d7ceca3b.cx6iawau684h.us-east-1.rds.amazonaws.com" port="5432" username="georgetown" database="RAW" password="georgetown123"></connection>
 
 <task id="task_1" schedule="*/1 * * * *"></task>
 
