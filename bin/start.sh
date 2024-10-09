@@ -43,9 +43,9 @@ p.start()
 "
 
 # Save the Python code to a temporary file
-echo "$python_code" > run_pipeline.py
+echo "$python_code" > $file_name+'.py'
 
 # Run the Python script
-python run_pipeline.py &
+python $file_name+'.py' &
 
 
