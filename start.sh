@@ -46,11 +46,6 @@ p.start()
 echo "$python_code" > run_pipeline.py
 
 # Run the Python script
-python run_pipeline.py
+python run_pipeline.py &
 
-# Optionally, clean up by removing the temporary Python file
-rm run_pipeline.py
-
-# Deactivate the virtual environment
-deactivate
 
