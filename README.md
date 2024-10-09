@@ -3,5 +3,9 @@ Setup:
 - ``cd Pipeline``
 - ``/bin/setup``
 
+
+Add Python requirements for your pipeline in `` Pipeline/requirements.txt`` (Do not remove existing packages)
+
+
 Start your pipeline files with the command:
 - ``pipeline <YOUR FILE NAME>``
