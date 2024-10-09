@@ -43,9 +43,9 @@ p.start()
 "
 
 # Save the Python code to a temporary file
-echo "$python_code" > $file_name+'.py'
+echo "$python_code" > $file_name'.py'
 
 # Run the Python script
-python $file_name+'.py' &
+python $file_name'.py' &
 
 
