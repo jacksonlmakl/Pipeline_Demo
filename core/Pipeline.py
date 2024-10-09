@@ -1,7 +1,7 @@
 from core import Task
 from core import Connection
 from core import Table
-from core import Log
+from core import PipelineLogger
 import re
 from jinja2 import Template
 import json
@@ -108,7 +108,7 @@ class Pipeline:
             return tbl[0]
     def run(self):
         log_name= str(self.file_name).replace('pipelines/','').replace('.xml','')
-        Log(log_name)
+        PipelineLogger()
         for table in self.tables:
             print(f"Building Table '{table.id}' .....")
             self.get_table(table.id).build()
