@@ -46,7 +46,7 @@ p.start()
 echo "$python_code" > run_pipeline.py
 
 # Run the Python script
-python $python_code
+python run_pipeline.py
 
 # Optionally, clean up by removing the temporary Python file
 rm run_pipeline.py
