@@ -15,4 +15,7 @@
 - Create new pipelines by adding .xml files to ``pipelines/`` (See ``sample.xml`` for formatting).
 - Start your pipeline files with the commands:
   	- ``cd Pipeline/`` (If this is not already your current directory).
-	- ``pipeline <YOUR FILE NAME>.xml``.
+	- ``pipeline <YOUR FILE NAME>``.
+ ## Example Usage:
+ - Ensure ``sample.xml`` exists in the ``pipelines/`` directory.
+ - ``pipeline sample``.
