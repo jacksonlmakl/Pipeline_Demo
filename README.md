@@ -70,7 +70,7 @@ The XML file contains several key elements:
 ```xml
 <task id="task_2" schedule="*/1 * * * *"></task>
 ```
-#### Note: You may only have 1 task per Pipeline file.
+#### Note: You may only have a single task per Pipeline file. Tasks run the components of the Pipeline in the order for which they appear in the ``.xml`` file.
 
 - **id**: Unique identifier for the task.
 - **schedule**: Cron-like schedule expression (e.g., every minute).
@@ -79,7 +79,7 @@ The XML file contains several key elements:
 ```xml
 <python id="t5" table="JOHTO_LANDING" schema="POKEMON" database="RAW" handler="main" connection="connection_1" materialization="truncate" inputs="" schema_change="drop_and_recreate">
 ```
-#### Note: Your Python component's handler must take in a table created by another component, or nothing at all. The handler must output a dataframe. 
+#### Note: Your Python component's handler must take in dataframes created by another component, or nothing at all. You define these dataframes with the ``inputs`` parameter in the component & in the definition of the handler function by using the object's unique identifier such as ``inputs="t7"`` and ``main(t7)`` to reference the table created in the component with the unique identifier ``t7``. The handler must output a dataframe. 
 
 - **id**: Unique object identifier.
 - **table**: Target table name.
