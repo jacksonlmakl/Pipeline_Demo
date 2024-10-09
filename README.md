@@ -19,6 +19,7 @@
 - Kill processes with the command:
 	- ``bin/stop <YOUR FILE NAME>``.
  ## Example Usage:
- - Make sure ``sample.xml`` exists in the ``pipelines/`` directory.
- - ``pipeline sample`` (To start a scheduled pipeline).
- - ``bin/stop sample`` (To stop a running/scheduled pipeline).
+ - Make sure ``kanto.xml`` & ``johto.xml`` exist in the ``pipelines/`` directory.
+ - ``pipeline kanto`` (To start a scheduled pipeline).
+ - The kanto pipeline will kick off. This builds a ETL pipeline to build tables on Pokemon from the Kanto region. It also kicks off johto.xml which builds a etl pipeline for tables on Pokemon in the Johto region.
+ - ``bin/stop kanto`` (To stop a running/scheduled pipeline).
