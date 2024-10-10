@@ -24,12 +24,12 @@ class PrintLogger:
 
 
 class PipelineLogger:
-    def __init__(self):
-        file_name=datetime.datetime.now().__str__().replace("-","_").replace(" ","__").replace(":","_").split(".")[0]
+    def __init__(self,fname):
+        file_name=fname+'__'+datetime.datetime.now().__str__().replace("-","_").replace(" ","__").replace(":","_").split(".")[0]
         print(f"Saving log to {file_name}.log")
         # Configure logging to log to a file
         logging.basicConfig(
-            filename=f'log__{file_name}.log', 
+            filename=f'{file_name}.log', 
             level=logging.INFO, 
             format='%(asctime)s - %(levelname)s - %(message)s'
         )
@@ -146,7 +146,7 @@ class Pipeline:
             return tbl[0]
     def run(self):
         log_name= str(self.file_name).replace('pipelines/','').replace('.xml','')
-        PipelineLogger()
+        PipelineLogger(log_name)
         for table in self.tables:
             print(f"Building Table '{table.id}' .....")
             self.get_table(table.id).build()
