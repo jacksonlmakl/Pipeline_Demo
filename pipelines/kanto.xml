@@ -96,7 +96,7 @@ def main(t0):
 
 </python>
 
-<sql id="t2" table="KANTO_RAW" schema="POKEMON" database="RAW" connection="connection_1" materialization="incremental" primary_key="name" inputs="t1" schema_change="drop_and_recreate">
+<sql id="t2" table="KANTO_RAW" schema="POKEMON" database="RAW" connection="connection_1" materialization="incremental" primary_key="name" inputs="t1" schema_change="raw">
 SELECT 
 * 
 FROM "POKEMON"."KANTO_STG"
@@ -120,7 +120,7 @@ FROM "POKEMON"."KANTO_RAW"
 
 </sql>
 
-<sql id="t4" table="KANTO_CORE" schema="POKEMON" database="RAW" connection="connection_1" materialization="incremental" primary_key="name"  inputs="t3" schema_change="drop_and_recreate">
+<sql id="t4" table="KANTO_CORE" schema="POKEMON" database="RAW" connection="connection_1" materialization="incremental" primary_key="name"  inputs="t3" schema_change="error">
 
 SELECT 
 * 
